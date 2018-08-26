@@ -1,23 +1,22 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { createStackNavigator } from 'react-navigation'
 
-export default class App extends React.Component {
+import CardDetail from './src/components/CardDetail.component'
+import DeckDetail from './src/components/DeckDetail.component'
+import Decks from './src/components/Decks.component'
+import AddDeck from './src/components/AddDeck.component'
+
+const Routes = createStackNavigator({
+  Decks,
+  AddDeck,
+  DeckDetail,
+  CardDetail,
+}, {
+  headerMode: 'none',
+})
+
+export default class App extends Component {
   render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
+    return <Routes />
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
