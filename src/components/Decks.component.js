@@ -29,10 +29,12 @@ class Decks extends Component {
 		setTimeout(() => this.setState({ updating: false }), 300)
 	}
 
-	onDeckPressHandler = () => {
+	onDeckPressHandler = (deck) => {
 		const { navigation } = this.props
 
-		navigation.navigate('DeckDetail')
+		navigation.navigate('DeckDetail', {
+			deck
+		})
 	}
 
 	onAddDeckPressHandler = () => {

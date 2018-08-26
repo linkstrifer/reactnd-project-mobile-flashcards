@@ -22,14 +22,15 @@ class Deck extends PureComponent {
 		const { getRandomColor } = this
 		const { onPress, data } = this.props
 		const { title, cards } = data
+		const backgroundColor = colors[getRandomColor()]
 
 		return (
 			<TouchableOpacity
 				style={[
 					styles.container,
-					{ backgroundColor: colors[getRandomColor()] }
+					{ backgroundColor }
 				]}
-				onPress={onPress}
+				onPress={() => onPress({ ...data, backgroundColor })}
 			>
 				<Text style={[
 					styles.text,

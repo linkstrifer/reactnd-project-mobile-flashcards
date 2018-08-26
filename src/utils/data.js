@@ -9,9 +9,15 @@ function callCallbacks() {
 	callbacks.forEach(callback => callback(data.decks))
 }
 
-export async function getDecks(callback) {
-	callbacks.push(callback)
+async function saveData() {
+	try {
+		await AsyncStorage.setItem('flashcards:data', JSON.stringify(data))
+	} catch (error) {
+		console.log(error)
+	}
+}
 
+async function loadData() {
 	// await AsyncStorage.setItem('flashcards:data', JSON.stringify(data))
 
 	try {
@@ -21,7 +27,13 @@ export async function getDecks(callback) {
 		console.log(error)
 	}
 
-	console.log(data)
+	return
+}
+
+export async function getDecks(callback) {
+	callbacks.push(callback)
+
+	await loadData()
 
 	callCallbacks()
 }
@@ -35,11 +47,7 @@ export async function saveDeck(title) {
 		title,
 	})
 
-	try {
-		await AsyncStorage.setItem('flashcards:data', JSON.stringify(data))
-	} catch (error) {
-		console.log(error)
-	}
+	saveData()
 
 	callCallbacks()
 }
