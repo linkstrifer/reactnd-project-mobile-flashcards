@@ -5,10 +5,29 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native'
-import Button from './Button.component';
+import Button from './Button.component'
 
 class DeckDetail extends PureComponent {
+	onAddCardPressHandler = () => {
+		const { navigation } = this.props
+		const deck = navigation.getParam('deck')
+
+		navigation.navigate('AddCard', {
+			deck
+		})
+	}
+
+	onQuizPressHandler = () => {
+		const { navigation } = this.props
+		const deck = navigation.getParam('deck')
+
+		navigation.navigate('Quiz', {
+			deck
+		})
+	}
+
 	render() {
+		const { onAddCardPressHandler, onQuizPressHandler } = this
 		const deck = this.props.navigation.getParam('deck')
 		const { title, cards, backgroundColor } = deck
 
@@ -25,8 +44,8 @@ class DeckDetail extends PureComponent {
 				<Text style={styles.text}>
 					{`${cards.length}`} cards
 				</Text>
-				<Button label="Add Card" />
-				<Button label="Start Quiz" />
+				<Button label="Add Card" onPress={onAddCardPressHandler} />
+				{cards.length > 0 && <Button label="Start Quiz" onPress={onQuizPressHandler} />}
 			</View>
 		)
 	}
@@ -38,17 +57,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		flex: 1,
 		justifyContent: 'center',
-	},
-	button: {
-		backgroundColor: '#ff4757',
-		borderRadius: 30,
-		marginTop: 15,
-		width: 150,
-		padding: 15,
-	},
-	buttonLabel: {
-		color: 'white',
-		
 	},
 	title: {
 		fontSize: 32,

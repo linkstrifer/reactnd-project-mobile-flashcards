@@ -4,6 +4,7 @@ import {
 	StyleSheet,
 	Text,
 	TouchableOpacity,
+	ScrollView,
 	View,
 } from 'react-native'
 import Deck from './Deck.component'
@@ -13,7 +14,6 @@ import { getDecks } from '../utils/data';
 class Decks extends Component {
 	state = {
 		decks: [],
-		updating: false,
 	}
 
 	async componentDidMount() {
@@ -23,10 +23,7 @@ class Decks extends Component {
 	updateDecks = (decks) => {
 		this.setState({
 			decks,
-			updating: true,
 		})
-
-		setTimeout(() => this.setState({ updating: false }), 300)
 	}
 
 	onDeckPressHandler = (deck) => {
@@ -44,15 +41,15 @@ class Decks extends Component {
 	}
 
 	render() {
-		const { onDeckPressHandler, onAddDeckPressHandler } = this
-		const { decks, updating } = this.state
+		const { onDeckPressHandler, onAddDeckPressHandler, state } = this
+		const { decks } = this.state
 
 		return (
 			<View style={styles.container}>
 				<FlatList
 					style={styles.list}
 					data={decks}
-					extraData={updating}
+					extraData={state}
 					keyExtractor={({ id }) => `${id}`}
 					renderItem={({ item }) => <Deck data={item} onPress={onDeckPressHandler}/>}
 				/>
@@ -60,7 +57,7 @@ class Decks extends Component {
 					style={styles.button}
 					onPress={onAddDeckPressHandler}
 				>
-					<Text style={styles.buttonLabel}>Add deck</Text>
+					<Text style={styles.buttonLabel}>Create Deck</Text>
 				</TouchableOpacity>
 			</View>
 		)

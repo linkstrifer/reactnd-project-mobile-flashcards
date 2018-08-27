@@ -4,21 +4,24 @@ import {
 	Text,
 	View,
 } from 'react-native'
-import Button from './Button.component';
-import Input from './Input.component';
-import { saveDeck } from '../utils/data';
+import Button from './Button.component'
+import Input from './Input.component'
+import { addCardToDeck } from '../utils/data'
 
-class AddDeck extends Component {
+class AddCard extends Component {
 	state = {
-		title: '',
+		answer: '',
+		question: '',
 	}
 
 	onSubmitPressHandler = () => {
-		const { title } = this.state
+		const { question, answer } = this.state
 		const { navigation } = this.props
+		const deck = this.props.navigation.getParam('deck')
 
-		saveDeck(title)
-		navigation.navigate('Decks')
+		addCardToDeck(deck, { question, answer })
+
+		navigation.goBack()
 	}
 
 	onCancelPressHandler = () => {
@@ -29,15 +32,20 @@ class AddDeck extends Component {
 
 	render() {
 		const { onSubmitPressHandler, onCancelPressHandler } = this
-		const { title } = this.state
+		const { question, answer } = this.state
 
 		return (
 			<View style={styles.container}>
 				<Text style={styles.title}>Add Deck</Text>
 				<Input
-					placeholder="Title"
-					onChangeText={title => this.setState({ title })}
-					value={title}
+					placeholder="Question"
+					onChangeText={question => this.setState({ question })}
+					value={question}
+				/>
+				<Input
+					placeholder="Answer"
+					onChangeText={answer => this.setState({ answer })}
+					value={answer}
 				/>
 				<Button
 					label="Add"
@@ -65,4 +73,4 @@ const styles = StyleSheet.create({
 	},
 })
 
-export default AddDeck
+export default AddCard

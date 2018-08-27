@@ -6,7 +6,7 @@ let data = {
 }
 
 function callCallbacks() {
-	callbacks.forEach(callback => callback(data.decks))
+	callbacks.forEach(callback => callback([...data.decks]))
 }
 
 async function saveData() {
@@ -52,4 +52,17 @@ export async function saveDeck(title) {
 	callCallbacks()
 }
 
-export async function addCardToDeck(deck, card) {}
+export async function addCardToDeck(deck, card) {
+	data.decks = data.decks.map((deckData) => {
+		const newDeck = deckData
+		if (newDeck.id === deck.id) {
+			newDeck.cards.push(card)
+		}
+
+		return newDeck
+	})
+
+	saveData()
+
+	callCallbacks()
+}
