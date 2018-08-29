@@ -14,14 +14,25 @@ class AddCard extends Component {
 		question: '',
 	}
 
-	onSubmitPressHandler = () => {
+	constructor(props) {
+		super(props)
+
+		this.onSubmitPressHandler = this.onSubmitPressHandler.bind(this)
+	}
+
+	async onSubmitPressHandler() {
 		const { question, answer } = this.state
 		const { navigation } = this.props
 		const deck = this.props.navigation.getParam('deck')
 
-		addCardToDeck(deck, { question, answer })
+		const newDeckData = await addCardToDeck(deck, { question, answer })
 
-		navigation.goBack()
+		navigation.navigate('DeckDetail', {
+			deck: {
+				...deck,
+				...newDeckData
+			}
+		})
 	}
 
 	onCancelPressHandler = () => {

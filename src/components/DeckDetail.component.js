@@ -5,6 +5,8 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+
 import Button from './Button.component'
 
 class DeckDetail extends PureComponent {
@@ -26,8 +28,14 @@ class DeckDetail extends PureComponent {
 		})
 	}
 
+	onBackPressHandler = () => {
+		const { navigation } = this.props
+
+		navigation.navigate('Decks')
+	}
+
 	render() {
-		const { onAddCardPressHandler, onQuizPressHandler } = this
+		const { onAddCardPressHandler, onQuizPressHandler, onBackPressHandler } = this
 		const deck = this.props.navigation.getParam('deck')
 		const { title, cards, backgroundColor } = deck
 
@@ -38,6 +46,9 @@ class DeckDetail extends PureComponent {
 					backgroundColor: backgroundColor,
 				}
 			]}>
+				<TouchableOpacity style={styles.back} onPress={onBackPressHandler}>
+					<Ionicons name="ios-arrow-back" size={32} color="white" />
+				</TouchableOpacity>
 				<Text style={[styles.text, styles.title]}>
 					{title}
 				</Text>
@@ -66,6 +77,11 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: 'bold',
 		marginBottom: 15,
+	},
+	back: {
+		left: 30,
+		position: 'absolute',
+		top: 30,
 	},
 })
 

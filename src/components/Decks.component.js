@@ -9,20 +9,27 @@ import {
 } from 'react-native'
 import Deck from './Deck.component'
 import { Constants } from 'expo'
-import { getDecks } from '../utils/data';
+import { getDecks, callCallbacks } from '../utils/data';
 
 class Decks extends Component {
 	state = {
 		decks: [],
+		lastupdated: null,
 	}
 
 	async componentDidMount() {
-		getDecks(this.updateDecks)
+		const { updateDecks } = this
+		const { navigation } = this.props
+
+		getDecks(updateDecks)
+
+		navigation.addListener('willFocus', callCallbacks)
 	}
 
 	updateDecks = (decks) => {
 		this.setState({
 			decks,
+			lastupdated: new Date(),
 		})
 	}
 
@@ -42,14 +49,14 @@ class Decks extends Component {
 
 	render() {
 		const { onDeckPressHandler, onAddDeckPressHandler, state } = this
-		const { decks } = this.state
+		const { decks, lastupdated } = state
 
 		return (
 			<View style={styles.container}>
 				<FlatList
 					style={styles.list}
 					data={decks}
-					extraData={state}
+					extraData={lastupdated}
 					keyExtractor={({ id }) => `${id}`}
 					renderItem={({ item }) => <Deck data={item} onPress={onDeckPressHandler}/>}
 				/>

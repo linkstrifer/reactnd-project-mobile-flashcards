@@ -2,8 +2,11 @@ import React, { Component, Fragment } from 'react'
 import {
 	StyleSheet,
 	Text,
+	TouchableOpacity,
 	View,
 } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+
 import Button from './Button.component'
 
 const initialState = {
@@ -65,8 +68,14 @@ class Quiz extends Component {
 		}
 	}
 
+	onBackPressHandler = () => {
+		const { navigation } = this.props
+
+		navigation.navigate('DeckDetail')
+	}
+
 	render() {
-		const { onCorrectIncorrectPressHandler } = this
+		const { onCorrectIncorrectPressHandler, onBackPressHandler } = this
 		const { currentCard, showAnswer } = this.state
 		const { navigation } = this.props
 		const deck = navigation.getParam('deck')
@@ -75,6 +84,9 @@ class Quiz extends Component {
 
 		return (
 			<View style={[styles.container, { backgroundColor }]}>
+				<TouchableOpacity style={styles.back} onPress={onBackPressHandler}>
+					<Ionicons name="ios-arrow-back" size={32} color="white" />
+				</TouchableOpacity>
 				<View style={styles.card}>
 					<Text style={[styles.text, styles.title]}>
 						{question}
@@ -126,6 +138,11 @@ const styles = StyleSheet.create({
 	},
 	remaining: {
 		marginTop: 15,
+	},
+	back: {
+		left: 30,
+		position: 'absolute',
+		top: 30,
 	},
 })
 
