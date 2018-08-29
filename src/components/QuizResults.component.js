@@ -5,8 +5,13 @@ import {
 	View,
 } from 'react-native'
 import Button from './Button.component'
+import { clearLocalNotifications } from '../utils/notifications';
 
 class QuizResults extends PureComponent {
+	componentDidMount() {
+		clearLocalNotifications()
+	}
+
 	onRestartPressHandler = () => {
 		const { navigation } = this.props
 
